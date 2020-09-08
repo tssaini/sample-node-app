@@ -16,6 +16,15 @@ app.use(methodOverride());
 
 app.use('/', require('./router'));
 
+app.use(async (err, req, res, next) => {
+	if(err !== null){
+		res.status(500).json({type: 'error', message: err.message})
+		logger.error(err.message)
+	}else{
+		next(err)
+	}
+});
+
 app.use((req, res) => {
 	const err = new Error('Not Found');
 	err.status = 404;

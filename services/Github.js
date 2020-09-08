@@ -10,12 +10,8 @@ class Github {
 
 	async getProjects() {
 		logger.info(`Getting projects for user: ${this.username}`)
-		try {
-			const response = await axios.get(`${GITURL}/users/${this.username}/repos`);
-			console.log(response);
-		} catch (error) {
-			console.error(error);
-		}
+		const response = await axios.get(`${GITURL}/users/${this.username}/repos`);
+		console.log(Object.keys(response))
 	}
 }
 
