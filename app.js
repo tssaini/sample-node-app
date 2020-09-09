@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 const logger = require('./utils/logger');
+const APIError = require('./utils/APIError')
 
 const app = express();
 
@@ -16,19 +17,18 @@ app.use(methodOverride());
 
 app.use('/', require('./router'));
 
-app.use(async (err, req, res, next) => {
-	if(err !== null){
-		res.status(500).json({type: 'error', message: err.message})
+app.use((err, req, res, next) => {
+	if (err !== null) {
+		if (err instanceof APIError) {
+			res.status(err.statusCode).json({type: 'error', message: err.message})
+		}
 		logger.error(err.message)
-	}else{
-		next(err)
 	}
 });
 
 app.use((req, res) => {
-	const err = new Error('Not Found');
-	err.status = 404;
-	res.status(err.status).json({ type: 'error', message: 'the url you are trying to reach is not hosted on our server' });
+	const err = new APIError(404, 'Not Found');
+	res.status(err.statusCode).json({ type: 'error', message: 'the url you are trying to reach is not hosted on our server' });
 });
 
 module.exports = app;

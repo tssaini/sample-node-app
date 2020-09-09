@@ -8,11 +8,17 @@ class Github {
 		this.username = username
 	}
 
-	async getProjects() {
+	async listProjects() {
 		logger.info(`Getting projects for user: ${this.username}`)
+
 		const response = await axios.get(`${GITURL}/users/${this.username}/repos`);
-		console.log(Object.keys(response))
+		const results = []
+		for (const proj of response.data) {
+			results.push({full_name: proj.full_name, url: proj.url})
+		}
+		return results
 	}
+
 }
 
 module.exports = Github
