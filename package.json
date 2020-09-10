@@ -4,21 +4,24 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "NODE_ENV=local mocha tests/unit/*js ",
     "lint": "eslint .",
-    "start": "nodemon bin/www.js"
+    "start": "node bin/www.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.20.0",
     "body-parser": "^1.19.0",
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
     "cookie-parser": "^1.4.5",
     "express": "^4.17.1",
     "method-override": "^3.0.0",
     "morgan": "^1.10.0",
     "node": "^12.18.3",
     "nodemon": "^2.0.4",
+    "sinon": "^7.5.0",
     "winston": "^3.3.3"
   },
   "devDependencies": {
